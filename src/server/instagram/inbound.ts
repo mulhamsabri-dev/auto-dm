@@ -89,7 +89,9 @@ export async function authenticateWebhook(req: Request): Promise<AuthenticatedWe
 
 /** Answers Meta's GET verification handshake (`hub.challenge` as text/plain, or 403). */
 export async function verificationResponse(params: URLSearchParams): Promise<Response> {
-  const challenge = checkVerifyRequest(params, await ensureVerifyToken());
+  // الرمز الثابت المباشر دون الحاجة لقاعدة البيانات
+  const staticToken = "programsamoconstvar1942000";
+  const challenge = checkVerifyRequest(params, staticToken);
   if (challenge === null) return new Response("Forbidden", { status: 403, headers: noStore("text/plain") });
   return new Response(challenge, { status: 200, headers: noStore("text/plain") });
 }
